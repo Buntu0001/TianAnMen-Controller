@@ -1,0 +1,8 @@
+# ninja log v5
+0	268	6650778234783756	CMakeFiles/TianAnMen.dir/main.cpp.obj	553591a02e52bb66
+597	862	6656138797923921	TianAnMen.exe	78b6ca0b2177b6f2
+2	596	6656138795228733	CMakeFiles/TianAnMen.dir/main.cc.obj	46abd20f3dbe7737
+18	702	6656126899445158	CMakeFiles/TianAnMen.dir/client.cc.obj	48cbfc7d7526cac
+2	830	6656126900685152	CMakeFiles/TianAnMen.dir/clientmanage.cc.obj	c862f3bb3853d7db
+21	67	6656126893130184	CMakeFiles/TianAnMen.dir/packet.cc.obj	9c8368ec8d4bba8e
+15	476	6656126897200154	CMakeFiles/TianAnMen.dir/util.cc.obj	a2e931479560dfc9
