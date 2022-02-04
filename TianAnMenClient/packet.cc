@@ -3,3 +3,7 @@
 //
 
 #include "packet.h"
+
+bool packet::sendPacket(struct PACKET *packet) {
+    return true;
+}

@@ -5,6 +5,8 @@
 #ifndef TIANANMENCLIENT_PACKET_H
 #define TIANANMENCLIENT_PACKET_H
 
+#include "main.h"
+
 enum PACKET_TYPE {
     PING,
     INFO,
@@ -21,6 +23,7 @@ struct PACKET {
 
 class packet {
 public:
+    static bool sendPacket(struct PACKET *packet);
 };
 
 

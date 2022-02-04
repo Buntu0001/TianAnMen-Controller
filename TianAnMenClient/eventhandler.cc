@@ -32,7 +32,7 @@ void eventhandler::getOSVersion(wchar_t *buf) {
 
         if (osInfo.dwMajorVersion == 10 && osInfo.dwMinorVersion == 0) {
             if (osInfo.dwBuildNumber >= 22000) {
-                wcscpy(buf, L"Windows 11");
+                wcscpy(buf, L"윈도우 11");
             } else {
                 wcscpy(buf, L"Windows 10");
             }

