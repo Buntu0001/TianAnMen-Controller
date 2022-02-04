@@ -5,6 +5,8 @@
 #ifndef TIANANMEN_PACKET_H
 #define TIANANMEN_PACKET_H
 
+#include "structure.h"
+
 enum PACKET_TYPE {
     PING,
     INFO,
@@ -19,13 +21,9 @@ struct PACKET {
     int finalIndex;
 };
 
-struct INFO {
-
-};
-
 class packet {
 public:
-    static struct INFO getInfo(wchar_t *data);
+    static struct INFO getInfo(struct PACKET *packet);
 };
 
 

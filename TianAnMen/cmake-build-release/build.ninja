@@ -39,7 +39,7 @@ include CMakeFiles/rules.ninja
 #############################################
 # Logical path to working directory; prefix for absolute paths.
 
-cmake_ninja_workdir = C$:/Users/LUNAFE/Desktop/source/TianAnMen/cmake-build-release/
+cmake_ninja_workdir = C$:/Users/LUNAFE/Desktop/GitHub/TianAnMen-Controller/TianAnMen/cmake-build-release/
 # =============================================================================
 # Object build statements for EXECUTABLE target TianAnMen
 
@@ -49,33 +49,33 @@ cmake_ninja_workdir = C$:/Users/LUNAFE/Desktop/source/TianAnMen/cmake-build-rele
 
 build cmake_object_order_depends_target_TianAnMen: phony || CMakeFiles/TianAnMen.dir
 
-build CMakeFiles/TianAnMen.dir/main.cc.obj: CXX_COMPILER__TianAnMen_Release C$:/Users/LUNAFE/Desktop/source/TianAnMen/main.cc || cmake_object_order_depends_target_TianAnMen
+build CMakeFiles/TianAnMen.dir/main.cc.obj: CXX_COMPILER__TianAnMen_Release C$:/Users/LUNAFE/Desktop/GitHub/TianAnMen-Controller/TianAnMen/main.cc || cmake_object_order_depends_target_TianAnMen
   DEP_FILE = CMakeFiles\TianAnMen.dir\main.cc.obj.d
-  FLAGS = -O3 -DNDEBUG -std=gnu++17
+  FLAGS = -static -O0 -std=gnu++17
   OBJECT_DIR = CMakeFiles\TianAnMen.dir
   OBJECT_FILE_DIR = CMakeFiles\TianAnMen.dir
 
-build CMakeFiles/TianAnMen.dir/clientmanage.cc.obj: CXX_COMPILER__TianAnMen_Release C$:/Users/LUNAFE/Desktop/source/TianAnMen/clientmanage.cc || cmake_object_order_depends_target_TianAnMen
+build CMakeFiles/TianAnMen.dir/clientmanage.cc.obj: CXX_COMPILER__TianAnMen_Release C$:/Users/LUNAFE/Desktop/GitHub/TianAnMen-Controller/TianAnMen/clientmanage.cc || cmake_object_order_depends_target_TianAnMen
   DEP_FILE = CMakeFiles\TianAnMen.dir\clientmanage.cc.obj.d
-  FLAGS = -O3 -DNDEBUG -std=gnu++17
+  FLAGS = -static -O0 -std=gnu++17
   OBJECT_DIR = CMakeFiles\TianAnMen.dir
   OBJECT_FILE_DIR = CMakeFiles\TianAnMen.dir
 
-build CMakeFiles/TianAnMen.dir/client.cc.obj: CXX_COMPILER__TianAnMen_Release C$:/Users/LUNAFE/Desktop/source/TianAnMen/client.cc || cmake_object_order_depends_target_TianAnMen
+build CMakeFiles/TianAnMen.dir/client.cc.obj: CXX_COMPILER__TianAnMen_Release C$:/Users/LUNAFE/Desktop/GitHub/TianAnMen-Controller/TianAnMen/client.cc || cmake_object_order_depends_target_TianAnMen
   DEP_FILE = CMakeFiles\TianAnMen.dir\client.cc.obj.d
-  FLAGS = -O3 -DNDEBUG -std=gnu++17
+  FLAGS = -static -O0 -std=gnu++17
   OBJECT_DIR = CMakeFiles\TianAnMen.dir
   OBJECT_FILE_DIR = CMakeFiles\TianAnMen.dir
 
-build CMakeFiles/TianAnMen.dir/util.cc.obj: CXX_COMPILER__TianAnMen_Release C$:/Users/LUNAFE/Desktop/source/TianAnMen/util.cc || cmake_object_order_depends_target_TianAnMen
+build CMakeFiles/TianAnMen.dir/util.cc.obj: CXX_COMPILER__TianAnMen_Release C$:/Users/LUNAFE/Desktop/GitHub/TianAnMen-Controller/TianAnMen/util.cc || cmake_object_order_depends_target_TianAnMen
   DEP_FILE = CMakeFiles\TianAnMen.dir\util.cc.obj.d
-  FLAGS = -O3 -DNDEBUG -std=gnu++17
+  FLAGS = -static -O0 -std=gnu++17
   OBJECT_DIR = CMakeFiles\TianAnMen.dir
   OBJECT_FILE_DIR = CMakeFiles\TianAnMen.dir
 
-build CMakeFiles/TianAnMen.dir/packet.cc.obj: CXX_COMPILER__TianAnMen_Release C$:/Users/LUNAFE/Desktop/source/TianAnMen/packet.cc || cmake_object_order_depends_target_TianAnMen
+build CMakeFiles/TianAnMen.dir/packet.cc.obj: CXX_COMPILER__TianAnMen_Release C$:/Users/LUNAFE/Desktop/GitHub/TianAnMen-Controller/TianAnMen/packet.cc || cmake_object_order_depends_target_TianAnMen
   DEP_FILE = CMakeFiles\TianAnMen.dir\packet.cc.obj.d
-  FLAGS = -O3 -DNDEBUG -std=gnu++17
+  FLAGS = -static -O0 -std=gnu++17
   OBJECT_DIR = CMakeFiles\TianAnMen.dir
   OBJECT_FILE_DIR = CMakeFiles\TianAnMen.dir
 
@@ -88,7 +88,7 @@ build CMakeFiles/TianAnMen.dir/packet.cc.obj: CXX_COMPILER__TianAnMen_Release C$
 # Link the executable TianAnMen.exe
 
 build TianAnMen.exe: CXX_EXECUTABLE_LINKER__TianAnMen_Release CMakeFiles/TianAnMen.dir/main.cc.obj CMakeFiles/TianAnMen.dir/clientmanage.cc.obj CMakeFiles/TianAnMen.dir/client.cc.obj CMakeFiles/TianAnMen.dir/util.cc.obj CMakeFiles/TianAnMen.dir/packet.cc.obj
-  FLAGS = -O3 -DNDEBUG
+  FLAGS = -static -O0
   LINK_LIBRARIES = -lwsock32  -lws2_32  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\TianAnMen.dir
   POST_BUILD = cd .
@@ -102,7 +102,7 @@ build TianAnMen.exe: CXX_EXECUTABLE_LINKER__TianAnMen_Release CMakeFiles/TianAnM
 # Utility command for edit_cache
 
 build CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = cmd.exe /C "cd /D C:\Users\LUNAFE\Desktop\source\TianAnMen\cmake-build-release && "C:\Program Files\JetBrains\CLion 2021.3.2\bin\cmake\win\bin\cmake.exe" -E echo "No interactive CMake dialog available.""
+  COMMAND = cmd.exe /C "cd /D C:\Users\LUNAFE\Desktop\GitHub\TianAnMen-Controller\TianAnMen\cmake-build-release && "C:\Program Files\JetBrains\CLion 2021.3.2\bin\cmake\win\bin\cmake.exe" -E echo "No interactive CMake dialog available.""
   DESC = No interactive CMake dialog available...
   restat = 1
 
@@ -113,7 +113,7 @@ build edit_cache: phony CMakeFiles/edit_cache.util
 # Utility command for rebuild_cache
 
 build CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = cmd.exe /C "cd /D C:\Users\LUNAFE\Desktop\source\TianAnMen\cmake-build-release && "C:\Program Files\JetBrains\CLion 2021.3.2\bin\cmake\win\bin\cmake.exe" --regenerate-during-build -SC:\Users\LUNAFE\Desktop\source\TianAnMen -BC:\Users\LUNAFE\Desktop\source\TianAnMen\cmake-build-release"
+  COMMAND = cmd.exe /C "cd /D C:\Users\LUNAFE\Desktop\GitHub\TianAnMen-Controller\TianAnMen\cmake-build-release && "C:\Program Files\JetBrains\CLion 2021.3.2\bin\cmake\win\bin\cmake.exe" --regenerate-during-build -SC:\Users\LUNAFE\Desktop\GitHub\TianAnMen-Controller\TianAnMen -BC:\Users\LUNAFE\Desktop\GitHub\TianAnMen-Controller\TianAnMen\cmake-build-release"
   DESC = Running CMake to regenerate build system...
   pool = console
   restat = 1
@@ -131,7 +131,7 @@ build TianAnMen: phony TianAnMen.exe
 # =============================================================================
 
 #############################################
-# Folder: C:/Users/LUNAFE/Desktop/source/TianAnMen/cmake-build-release
+# Folder: C:/Users/LUNAFE/Desktop/GitHub/TianAnMen-Controller/TianAnMen/cmake-build-release
 
 build all: phony TianAnMen.exe
 

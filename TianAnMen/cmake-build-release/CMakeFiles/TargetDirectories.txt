@@ -1,3 +1,3 @@
-C:/Users/LUNAFE/Desktop/source/TianAnMen/cmake-build-release/CMakeFiles/TianAnMen.dir
-C:/Users/LUNAFE/Desktop/source/TianAnMen/cmake-build-release/CMakeFiles/edit_cache.dir
-C:/Users/LUNAFE/Desktop/source/TianAnMen/cmake-build-release/CMakeFiles/rebuild_cache.dir
+C:/Users/LUNAFE/Desktop/GitHub/TianAnMen-Controller/TianAnMen/cmake-build-release/CMakeFiles/TianAnMen.dir
+C:/Users/LUNAFE/Desktop/GitHub/TianAnMen-Controller/TianAnMen/cmake-build-release/CMakeFiles/edit_cache.dir
+C:/Users/LUNAFE/Desktop/GitHub/TianAnMen-Controller/TianAnMen/cmake-build-release/CMakeFiles/rebuild_cache.dir

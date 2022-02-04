@@ -4,7 +4,6 @@
 
 #include "packet.h"
 
-struct INFO packet::getInfo(wchar_t *data) {
-    struct INFO info;
-    return info;
+struct INFO packet::getInfo(struct PACKET *packet) {
+    wchar_t data[512];
 }

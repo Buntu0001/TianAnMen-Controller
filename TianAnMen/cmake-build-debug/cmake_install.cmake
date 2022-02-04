@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/LUNAFE/Desktop/source/TianAnMen
+# Install script for directory: C:/Users/LUNAFE/Desktop/GitHub/TianAnMen-Controller/TianAnMen
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "C:/Users/LUNAFE/Desktop/source/TianAnMen/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "C:/Users/LUNAFE/Desktop/GitHub/TianAnMen-Controller/TianAnMen/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

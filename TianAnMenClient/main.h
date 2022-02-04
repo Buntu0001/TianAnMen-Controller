@@ -11,9 +11,12 @@
 
 #include <iostream>
 #include <winsock2.h>
+#include <locale>
 
 #include "eventhandler.h"
 #include "util.h"
+#include "packet.h"
+#include "structure.h"
 
 
 #endif //TIANANMENCLIENT_MAIN_H

@@ -1,0 +1,3 @@
+C:/Users/LUNAFE/Desktop/GitHub/TianAnMen-Controller/TianAnMenClient/cmake-build-release/CMakeFiles/TianAnMenClient.dir
+C:/Users/LUNAFE/Desktop/GitHub/TianAnMen-Controller/TianAnMenClient/cmake-build-release/CMakeFiles/edit_cache.dir
+C:/Users/LUNAFE/Desktop/GitHub/TianAnMen-Controller/TianAnMenClient/cmake-build-release/CMakeFiles/rebuild_cache.dir

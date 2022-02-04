@@ -1,5 +1,5 @@
 #include "main.h"
-#include "packet.h"
+
 
 bool main::recvData(SOCKET socket, char *msg) {
     int length = recv(socket, (char *) msg, PACKET_SIZE, 0);
@@ -50,8 +50,15 @@ int main() {
 
     char buffer[PACKET_SIZE];
     if (recv(clientSock, (char *) buffer, PACKET_SIZE, 0)) {
-        PACKET *testPacket = (PACKET *) buffer;
-        printf("%s\n", testPacket->taskID);
+        struct INFO *testInfo;
+        testInfo = (struct INFO*)buffer;
+        printf("IPAddress: %S\n", testInfo->ipAddress);
+        printf("ComputerName: %S\n", testInfo->computerName);
+        printf("OsVersion: %S\n", testInfo->osVersion);
+        printf("WindowTitle: %S\n", testInfo->windowTitle);
+        printf("GeoID: %S\n", testInfo->geoID);
+        //PACKET *testPacket = (PACKET *) buffer;
+        //printf("%s\n", testPacket->taskID);
     } else {
         printf("Error Data Receive!\n");
     }

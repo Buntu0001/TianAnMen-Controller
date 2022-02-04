@@ -6,11 +6,14 @@
 #define TIANANMEN_MAIN_H
 
 #define PORT 1234
-#define PACKET_SIZE 2048
+#define PACKET_SIZE 1024
 
 #include <stdio.h>
 #include <windows.h>
+
+#include "packet.h"
 #include "client.h"
+#include "structure.h"
 
 class main {
 public:
