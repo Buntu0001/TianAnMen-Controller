@@ -5,22 +5,13 @@
 #ifndef TIANANMEN_MAIN_H
 #define TIANANMEN_MAIN_H
 
-#define PORT 1234
-#define PACKET_SIZE 1500
-
-#include <stdio.h>
+#include <iostream>
 #include <windows.h>
-#include <locale>
-#include <thread>
 
-#include "packet.h"
-#include "client.h"
-#include "structure.h"
+#include "Connection/handling.h"
+#include "Connection/client_list.h"
 
 class main {
-public:
-    static bool recvData(SOCKET socket, char *msg);
-    static void listening();
 };
 
 
