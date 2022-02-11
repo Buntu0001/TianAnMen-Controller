@@ -10,15 +10,18 @@
 #include "../Misc/structure.h"
 
 class client {
-public:
-    SOCKET GetSocket();
-    time_t GetInstallTime();
-    struct INFO GetInfo();
-    client(SOCKET socket_, time_t time, struct INFO *info_);
 private:
     SOCKET socket;
     time_t install_time;
     struct INFO info;
+public:
+    SOCKET GetSocket();
+
+    time_t GetInstallTime();
+
+    struct INFO GetInfo();
+
+    client(SOCKET socket_, time_t time, struct INFO *info_);
 };
 
 

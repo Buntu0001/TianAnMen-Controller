@@ -10,6 +10,7 @@
 #include <random>
 
 #include "../Helper/event_handler.h"
+#include "../Connection/packet.h"
 #include "structure.h"
 
 class util {
@@ -17,6 +18,9 @@ public:
     static void GenId(char* buf, int len);
     static void Trim(wchar_t *src, int index, wchar_t *dst);
     static void InitRetrieveInfo(struct INFO *info);
+
+    static void MakePong(class packet *packet_);
+    static void MakeInfo(class packet *packet_);
 };
 
 

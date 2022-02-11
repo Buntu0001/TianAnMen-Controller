@@ -15,3 +15,17 @@ void util::GenId(char *buf, int len) {
     }
     buf[len - 1] = 0;
 }
+
+void util::MakePing(class packet *packet_) {
+    packet_->set_type(PACKET_TYPE::PING);
+
+    char id[16];
+    util::GenId(id, 16);
+    packet_->set_task_id(id);
+
+    wchar_t data_[4] = {1, 2, 3, 4};
+    packet_->set_data(data_);
+
+    packet_->set_current_index(0);
+    packet_->set_final_index(0);
+}

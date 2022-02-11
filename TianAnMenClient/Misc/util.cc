@@ -30,7 +30,6 @@ void util::InitRetrieveInfo(struct INFO *info) {
     event_handler::GetComputerName(computer_name);
     wcscpy(info->computer_name, computer_name);
 
-
     wchar_t os_version[16];
     event_handler::GetOsVersion(os_version);
     wcscpy(info->os_version, os_version);
@@ -46,4 +45,35 @@ void util::InitRetrieveInfo(struct INFO *info) {
     wchar_t geo_id[8];
     event_handler::GetGeoId(geo_id);
     wcscpy(info->geo_id, geo_id);
+}
+
+void util::MakePong(packet *packet_) {
+    packet_->set_type(PACKET_TYPE::PING);
+
+    char id[16];
+    util::GenId(id, 16);
+    packet_->set_task_id(id);
+
+    wchar_t window_title[128];
+    event_handler::GetActiveWindow(window_title);
+    packet_->set_data(window_title);
+
+    packet_->set_current_index(0);
+    packet_->set_final_index(0);
+}
+
+void util::MakeInfo(packet *packet_) {
+    struct INFO init_info;
+    util::InitRetrieveInfo(&init_info);
+
+    packet_->set_type(PACKET_TYPE::INFO);
+
+    char id[16];
+    util::GenId(id, 16);
+    packet_->set_task_id(id);
+
+    packet_->set_data((wchar_t *) &init_info);
+
+    packet_->set_current_index(0);
+    packet_->set_final_index(0);
 }

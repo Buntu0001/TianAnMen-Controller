@@ -84,6 +84,20 @@ build CMakeFiles/TianAnMenClient.dir/Connection/handling.cc.obj: CXX_COMPILER__T
   OBJECT_DIR = CMakeFiles\TianAnMenClient.dir
   OBJECT_FILE_DIR = CMakeFiles\TianAnMenClient.dir\Connection
 
+build CMakeFiles/TianAnMenClient.dir/Helper/file_handler.cc.obj: CXX_COMPILER__TianAnMenClient_Debug C$:/Users/LUNAFE/Desktop/GitHub/TianAnMen-Controller/TianAnMenClient/Helper/file_handler.cc || cmake_object_order_depends_target_TianAnMenClient
+  DEFINES = -DDEBUG
+  DEP_FILE = CMakeFiles\TianAnMenClient.dir\Helper\file_handler.cc.obj.d
+  FLAGS = -static -g -std=gnu++17
+  OBJECT_DIR = CMakeFiles\TianAnMenClient.dir
+  OBJECT_FILE_DIR = CMakeFiles\TianAnMenClient.dir\Helper
+
+build CMakeFiles/TianAnMenClient.dir/Helper/file_handle_list.cc.obj: CXX_COMPILER__TianAnMenClient_Debug C$:/Users/LUNAFE/Desktop/GitHub/TianAnMen-Controller/TianAnMenClient/Helper/file_handle_list.cc || cmake_object_order_depends_target_TianAnMenClient
+  DEFINES = -DDEBUG
+  DEP_FILE = CMakeFiles\TianAnMenClient.dir\Helper\file_handle_list.cc.obj.d
+  FLAGS = -static -g -std=gnu++17
+  OBJECT_DIR = CMakeFiles\TianAnMenClient.dir
+  OBJECT_FILE_DIR = CMakeFiles\TianAnMenClient.dir\Helper
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target TianAnMenClient
@@ -92,7 +106,7 @@ build CMakeFiles/TianAnMenClient.dir/Connection/handling.cc.obj: CXX_COMPILER__T
 #############################################
 # Link the executable TianAnMenClient.exe
 
-build TianAnMenClient.exe: CXX_EXECUTABLE_LINKER__TianAnMenClient_Debug CMakeFiles/TianAnMenClient.dir/main.cc.obj CMakeFiles/TianAnMenClient.dir/Misc/util.cc.obj CMakeFiles/TianAnMenClient.dir/Helper/event_handler.cc.obj CMakeFiles/TianAnMenClient.dir/Connection/packet.cc.obj CMakeFiles/TianAnMenClient.dir/Connection/handling.cc.obj
+build TianAnMenClient.exe: CXX_EXECUTABLE_LINKER__TianAnMenClient_Debug CMakeFiles/TianAnMenClient.dir/main.cc.obj CMakeFiles/TianAnMenClient.dir/Misc/util.cc.obj CMakeFiles/TianAnMenClient.dir/Helper/event_handler.cc.obj CMakeFiles/TianAnMenClient.dir/Connection/packet.cc.obj CMakeFiles/TianAnMenClient.dir/Connection/handling.cc.obj CMakeFiles/TianAnMenClient.dir/Helper/file_handler.cc.obj CMakeFiles/TianAnMenClient.dir/Helper/file_handle_list.cc.obj
   FLAGS = -static -g
   LINK_LIBRARIES = -lwsock32  -lws2_32  -lWininet  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\TianAnMenClient.dir

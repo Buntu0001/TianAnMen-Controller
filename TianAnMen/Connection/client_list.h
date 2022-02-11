@@ -16,11 +16,10 @@ typedef std::vector<client *>::iterator iterator_t;
 class client_list {
 private:
     static list_t list;
-public:
     static list_t MakeVector();
+public:
     static void Add(client *client_);
     static void Remove(int index);
-    static iterator_t Remove(iterator_t iter);
     static void Remove(SOCKET socket);
     static int GetSize();
     static iterator_t Begin();

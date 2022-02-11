@@ -12,6 +12,7 @@
 #include "../Misc/util.h"
 #include "packet.h"
 #include "../Misc/structure.h"
+#include "../main.h"
 
 class handling {
 public:

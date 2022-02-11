@@ -14,15 +14,10 @@ void client_list::Remove(int index) {
     list.erase(list.begin() + index);
 }
 
-iterator_t client_list::Remove(iterator_t iter) {
-    return list.erase(iter);
-}
-
 void client_list::Remove(SOCKET socket) {
-    iterator_t iter;
-    for (iter = client_list::Begin(); iter != client_list::End();) {
+    for (auto iter = client_list::Begin(); iter != client_list::End();) {
         if ((SOCKET) ((client *) (*iter)->GetSocket()) == socket) {
-            iter = client_list::Remove(iter);
+            iter = list.erase(iter);
 #ifdef DEBUG
             wprintf(L"[DEBUG] CLIENT_REMOVED\n");
 #endif
@@ -46,8 +41,6 @@ iterator_t client_list::End() {
 
 list_t client_list::MakeVector() {
     list_t v;
-    v.push_back((client *) 0);
-    v.clear();
     return v;
 }
 

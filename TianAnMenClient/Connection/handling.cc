@@ -43,32 +43,36 @@ void handling::Handler() {
 #ifdef DEBUG
     printf("[DEBUG] Connected!\n");
 #endif
-    packet::SendInfo();
+    packet info_packet;
+    util::MakeInfo(&info_packet);
+#ifdef DEBUG
+    struct INFO *test = (struct INFO *) info_packet.get_data();
+    wprintf(L"[DEBUG] ip: %S\n[DEBUG] name: %S\n[DEBUG] os: %S\n[DEBUG] window_title: %S\n[DEBUG] geo_id: %S\n", test->ip_address, test->computer_name, test->os_version, test->window_title, test->geo_id);
+#endif
+    info_packet.Send();
 
     while (true) {
-        struct PACKET *packet;
-        char buf[PACKET_SIZE];
-        if (recv(main::sock, (char *) buf, PACKET_SIZE, 0) == -1) {
+        packet recevie_packet;
+        int result = recevie_packet.Receive();
+        if (result == -1) {
             WaitConnected();
-            packet::SendInfo();
-        } else {
-            packet = (struct PACKET *) &buf;
-            int result = packet::ParsePacket(packet);
-            if (result == 1) {
-                struct PACKET pong_packet;
-                packet::MakePong(&pong_packet);
-                if (send(main::sock, (char *) &pong_packet, PACKET_SIZE, 0) == -1) {
-                    WaitConnected();
-                } else {
-#ifdef DEBUG
-                    printf("[DEBUG] PONG_SENT\n");
-#endif
-                }
-            } else if (result == 0) {
-            } else if (result == -1) {
+            packet info_packet;
+            util::MakeInfo(&info_packet);
+            info_packet.Send();
+        } else if (result == 1) {
+            packet pong_packet;
+            util::MakePong(&pong_packet);
+            if (pong_packet.Send() == -1) {
                 WaitConnected();
-                packet::SendInfo();
+                packet info_packet;
+                util::MakeInfo(&info_packet);
+                info_packet.Send();
+            } else {
+#ifdef DEBUG
+                printf("[DEBUG] PONG_SENT\n");
+#endif
             }
+        } else if (result == 0) {
         }
         Sleep(1000);
     }
