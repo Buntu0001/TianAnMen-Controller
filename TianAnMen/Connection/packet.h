@@ -31,8 +31,6 @@ public:
 
     int Send(SOCKET socket);
     int Receive(SOCKET socket);
-    //static struct INFO GetInfo(struct PACKET *packet);
-    //static void MakePing(struct PACKET *packet_);
 };
 
 

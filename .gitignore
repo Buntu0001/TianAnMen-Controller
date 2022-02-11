@@ -1,0 +1,7 @@
+TianAnMen/.idea/
+TianAnMen/cmake-build-debug/
+TianAnMen/cmake-build-release/
+
+TianAnMenClient/.idea/
+TianAnMenClient/cmake-build-debug/
+TianAnMenClient/cmake-build-release/
