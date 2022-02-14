@@ -12,7 +12,7 @@
 
 class util {
 public:
-    static void GenId(char* buf, int len);
+    static void GenId(char *buf, int len);
 
     static void MakePing(class packet *packet_);
 };

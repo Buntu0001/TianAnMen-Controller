@@ -6,15 +6,27 @@
 #define TIANANMENCLIENT_FILE_HANDLER_H
 
 #include <string.h>
+#include <thread>
+
+#include "file_handle_list.h"
+#include "../Connection/packet.h"
+
 
 class file_handler {
 private:
     wchar_t *file_data = new wchar_t;
+    wchar_t file_buffer[512];
     char task_id[16];
-    int current_index = 0;
-    int final_index = 0;
+    int final_index;
+
+    static void NewFileTransfer();
+    int AddData(wchar_t *file_data_, int index);
+    void IssueFile();
+
 public:
-    file_handler(char task_id_[16], wchar_t file_data_[512], int final_index_);
+    file_handler(char *task_id_, int final_index_);
+
+    static void ReceiveFileThread();
 };
 
 

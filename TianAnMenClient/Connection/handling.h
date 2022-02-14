@@ -6,7 +6,7 @@
 #define TIANANMENCLIENT_HANDLING_H
 
 #include <iostream>
-#include <winsock2.h>
+#include <thread>
 
 #include "../Helper/event_handler.h"
 #include "../Misc/util.h"
@@ -17,7 +17,9 @@
 class handling {
 public:
     static bool Connected();
+
     static void Handler();
+
     static void WaitConnected();
 };
 

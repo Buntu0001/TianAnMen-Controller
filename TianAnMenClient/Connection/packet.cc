@@ -4,7 +4,7 @@
 
 #include "packet.h"
 
-int packet::Send() {
+int packet::Send(SOCKET socket) {
     PACKET send_packet;
     send_packet.type = type;
 
@@ -15,17 +15,17 @@ int packet::Send() {
     send_packet.current_index = current_index;
     send_packet.final_index = final_index;
 
-    if (send(main::sock, (char *) &send_packet, PACKET_SIZE, 0) == -1) {
+    if (send(socket, (char *) &send_packet, PACKET_SIZE, 0) == -1) {
         return -1;
     } else {
         return 0;
     }
 }
 
-int packet::Receive() {
+int packet::Receive(SOCKET socket) {
     char buf[PACKET_SIZE];
 
-    if (recv(main::sock, (char *) buf, PACKET_SIZE, 0) == -1) {
+    if (recv(socket, (char *) buf, PACKET_SIZE, 0) == -1) {
         return -1;
     } else {
         PACKET *packet_ = (PACKET *) &buf;
@@ -38,6 +38,13 @@ int packet::Receive() {
             set_data(packet_->data);
             set_current_index(packet_->current_index);
             set_final_index(packet_->final_index);
+            return 0;
+        } else if (packet_->type == PACKET_TYPE::FILE_SERVER_TO_CLIENT) {
+            set_type(packet_->type);
+            set_task_id(packet_->task_id);
+            set_data(packet_->data);
+            set_current_index(packet_->current_index);
+            set_final_index(packet_->final_index);
             return 1;
         } else if (packet_->type == PACKET_TYPE::FILE_DATA) {
             set_type(packet_->type);
@@ -45,7 +52,7 @@ int packet::Receive() {
             set_data(packet_->data);
             set_current_index(packet_->current_index);
             set_final_index(packet_->final_index);
-            return 0;
+            return 2;
         }
     }
 }
@@ -91,7 +98,7 @@ int *packet::get_current_index() {
 }
 
 int *packet::get_final_index() {
-    return &(current_index);
+    return &(final_index);
 }
 
 

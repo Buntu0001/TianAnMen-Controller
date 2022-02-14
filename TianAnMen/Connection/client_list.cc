@@ -16,7 +16,7 @@ void client_list::Remove(int index) {
 
 void client_list::Remove(SOCKET socket) {
     for (auto iter = client_list::Begin(); iter != client_list::End();) {
-        if ((SOCKET) ((client *) (*iter)->GetSocket()) == socket) {
+        if ((SOCKET)((client * )(*iter)->GetSocket()) == socket) {
             iter = list.erase(iter);
 #ifdef DEBUG
             wprintf(L"[DEBUG] CLIENT_REMOVED\n");

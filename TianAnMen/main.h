@@ -12,6 +12,8 @@
 #include "Connection/client_list.h"
 
 class main {
+public:
+    static bool isActive;
 };
 
 

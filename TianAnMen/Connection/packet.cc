@@ -35,14 +35,21 @@ int packet::Receive(SOCKET socket) {
             set_data(packet_->data);
             set_current_index(packet_->current_index);
             set_final_index(packet_->final_index);
-            return 1;
+            return 0;
         } else if (packet_->type == PACKET_TYPE::INFO) {
             set_type(packet_->type);
             set_task_id(packet_->task_id);
             set_data(packet_->data);
             set_current_index(packet_->current_index);
             set_final_index(packet_->final_index);
-            return 0;
+            return 1;
+        } else if (packet_->type == PACKET_TYPE::FILE_SERVER_TO_CLIENT) {
+            set_type(packet_->type);
+            set_task_id(packet_->task_id);
+            set_data(packet_->data);
+            set_current_index(packet_->current_index);
+            set_final_index(packet_->final_index);
+            return 2;
         }
     }
 }
@@ -84,5 +91,5 @@ int *packet::get_current_index() {
 }
 
 int *packet::get_final_index() {
-    return &(current_index);
+    return &(final_index);
 }

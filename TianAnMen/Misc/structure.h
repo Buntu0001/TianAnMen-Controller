@@ -16,6 +16,7 @@ struct INFO {
 enum PACKET_TYPE {
     PING,
     INFO,
+    FILE_SERVER_TO_CLIENT,
     FILE_DATA
 };
 

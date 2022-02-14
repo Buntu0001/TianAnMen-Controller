@@ -5,7 +5,6 @@
 #include "event_handler.h"
 
 
-
 void event_handler::GetComputerName(wchar_t *buf) {
     try {
         wchar_t folder[MAX_PATH];
@@ -20,7 +19,6 @@ void event_handler::GetComputerName(wchar_t *buf) {
         exit(-1);
     }
 }
-
 
 
 void event_handler::GetOsVersion(wchar_t *buf) {

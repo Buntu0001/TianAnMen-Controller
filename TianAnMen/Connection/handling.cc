@@ -73,11 +73,11 @@ void handling::Handler(SOCKET socket) {
         wprintf(L"[DEBUG] SOCKET_INIT_ERROR\n");
 #endif
         return;
-    } else if (result == 0) {
+    } else if (result == 1) {
         PACKET_TYPE *type = init_packet.get_type();
         char *task_id = init_packet.get_task_id();
 #ifdef DEBUG
-        wprintf(L"[DEBUG] PACKET_TYPE: %d\n[DEBUG] PACKET_TASK_ID: %s\n", type, task_id);
+        wprintf(L"[DEBUG] PACKET_TYPE: %d\n[DEBUG] PACKET_TASK_ID: %s\n", *type, task_id);
 #endif
         struct INFO *init_info = (struct INFO *) init_packet.get_data();
         time_t current_time = time(NULL);
@@ -93,49 +93,81 @@ void handling::Handler(SOCKET socket) {
                 init_info->ip_address, init_info->computer_name, init_info->os_version, init_info->window_title,
                 init_info->geo_id);
 #endif
+        while (true) {
+            if (!main::isActive) {
+                packet ping_packet;
+                util::MakePing(&ping_packet);
+
+                int result = ping_packet.Send(socket);
+
+                if (result == -1) {
+                    client_list::Remove(socket);
+#ifdef DEBUG
+                    wprintf(L"[DEBUG] SOCKET_PING_ERROR\n");
+#endif
+                    return;
+                } else if (result == 0) {
+#ifdef DEBUG
+                    wprintf(L"[DEBUG] PING_SENT\n");
+#endif
+                    packet receive_packet;
+                    int result = receive_packet.Receive(socket);
+                    if (result == -1) {
+                        client_list::Remove(socket);
+#ifdef DEBUG
+                        wprintf(L"[DEBUG] SOCKET_PONG_ERROR\n");
+#endif
+                        return;
+                    } else if (result == 0) {
+#ifdef DEBUG
+                        wprintf(L"[DEBUG] PONG_RECEIVED!\n");
+                        wprintf(L"[DEBUG] ACTIVE_WINDOW: %S\n", receive_packet.get_data());
+#endif
+                    } else {
+                        client_list::Remove(socket);
+#ifdef DEBUG
+                        wprintf(L"[DEBUG] WRONG_PACKET_TYPE\n");
+#endif
+                        return;
+                    }
+                }
+            } else if (main::isActive) {
+                main::isActive = false;
+
+                //create new file_handler
+                packet request_packet;
+                request_packet.set_type(PACKET_TYPE::FILE_SERVER_TO_CLIENT);
+
+                char id[16];
+                util::GenId(id, 16);
+                request_packet.set_task_id(id);
+                request_packet.set_current_index(0);
+                request_packet.set_final_index(4);
+
+                if (request_packet.Send(socket) == -1) {
+#ifdef DEBUG
+                    wprintf(L"[DEBUG_TRANSFER] ERROR_REQUEST_SEND\n");
+#endif
+                    return;
+                } else {
+#ifdef DEBUG
+                    wprintf(L"[DEBUG_TRANSFER] REQUEST_SEND\n");
+#endif
+                }
+            }
+        }
+    } else if (result == 2) {
+#ifdef DEBUG
+        wprintf(L"[DEBUG_TRANSFER] TRANSFER_PACKET\n");
+#endif
+        //get file_handler class from file_handler_list
+        wchar_t path[MAX_PATH] = L"C:\\Users\\LUNAFE\\Desktop\\test.txt";
+        std::thread handle_thread(file_handler::SendFileThread, socket, path);
+        handle_thread.join();
     } else {
 #ifdef DEBUG
         wprintf(L"[DEBUG] SOCKET_INFO_ERROR\n");
 #endif
     }
-    while (true) {
-        packet ping_packet;
-        util::MakePing(&ping_packet);
-
-        int result = ping_packet.Send(socket);
-
-        if (result == -1) {
-            client_list::Remove(socket);
-#ifdef DEBUG
-            wprintf(L"[DEBUG] SOCKET_PING_ERROR\n");
-#endif
-            return;
-        } else if (result == 0) {
-#ifdef DEBUG
-            wprintf(L"[DEBUG] PING_SENT\n");
-#endif
-            packet receive_packet;
-            int result = receive_packet.Receive(socket);
-            if (result == -1) {
-                client_list::Remove(socket);
-#ifdef DEBUG
-                wprintf(L"[DEBUG] SOCKET_PONG_ERROR\n");
-#endif
-                return;
-            } else if (result == 1) {
-#ifdef DEBUG
-                wprintf(L"[DEBUG] PONG_RECEIVED!\n");
-                wprintf(L"[DEBUG] ACTIVE_WINDOW: %S\n", receive_packet.get_data());
-#endif
-            } else {
-                client_list::Remove(socket);
-#ifdef DEBUG
-                wprintf(L"[DEBUG] WRONG_PACKET_TYPE\n");
-#endif
-                return;
-            }
-        }
-
-        Sleep(1000);
-    }
+    Sleep(1000);
 }
