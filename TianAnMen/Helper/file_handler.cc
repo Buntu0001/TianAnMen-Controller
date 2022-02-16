@@ -20,16 +20,16 @@ int file_handler::GetFileBlockSize() {
     HANDLE handle = CreateFileW(file_path, GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
     DWORD size = GetFileSize(handle, NULL);
     CloseHandle(handle);
-    if (size % 511 == 0) {
+    if (size % 1024 == 0) {
 #ifdef DEBUG
-        wprintf(L"[DEBUG-TRANSFER] BLOCK_SIZE: %d\n", size / 511);
+        wprintf(L"[DEBUG-TRANSFER] BLOCK_SIZE: %d\n", size / 1024);
 #endif
-        return size / 511;
+        return size / 1024;
     } else {
 #ifdef DEBUG
-        wprintf(L"[DEBUG-TRANSFER] BLOCK_SIZE: %d\n", (size / 511) + 1);
+        wprintf(L"[DEBUG-TRANSFER] BLOCK_SIZE: %d\n", (size / 1024) + 1);
 #endif
-        return (size / 511) + 1;
+        return (size / 1024) + 1;
     }
 }
 

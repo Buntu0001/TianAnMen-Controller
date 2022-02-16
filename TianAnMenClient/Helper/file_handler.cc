@@ -154,7 +154,6 @@ void file_handler::NewFileTransfer() {
 #ifdef DEBUG
                     wprintf(L"[DEBUG_TRANSFER] DATA_RECEIVED\n");
 #endif
-                    wprintf(L"[CONTEXT] %S\n", receive_packet.get_data());
                     if (*receive_packet.get_current_index() == 1) {
                         handle = new file_handler(receive_packet.get_task_id(),
                                                   *receive_packet.get_final_index());
