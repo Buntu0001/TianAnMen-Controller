@@ -64,7 +64,6 @@ void handling::Handler() {
             ip, name, os, title, id);
 #endif
     info_packet.Send(main::sock);
-
     while (true) {
         packet recevie_packet;
         int result = recevie_packet.Receive(main::sock);

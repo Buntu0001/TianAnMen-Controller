@@ -66,22 +66,6 @@ void file_handler::IssueFile() {
     }
 }
 
-void util::MakeInfo(packet *packet_) {
-    struct INFO init_info;
-    util::InitRetrieveInfo(&init_info);
-
-    packet_->set_type(PACKET_TYPE::INFO);
-
-    char id[16];
-    util::GenId(id, 16);
-    packet_->set_task_id(id);
-
-    packet_->set_data((char *) &init_info);
-
-    packet_->set_current_index(0);
-    packet_->set_final_index(0);
-}
-
 void MakeInitTransfer(packet *packet_) {
     packet_->set_type(PACKET_TYPE::FILE_SERVER_TO_CLIENT);
 

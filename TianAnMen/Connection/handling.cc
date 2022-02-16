@@ -169,6 +169,7 @@ void handling::Handler(SOCKET socket) {
 #endif
                 }
             }
+            Sleep(1000);
         }
     } else if (result == 2) {
 #ifdef DEBUG

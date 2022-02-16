@@ -4,6 +4,23 @@
 
 #include "packet.h"
 
+uint8_t key[] = {0x2b, 0x7e, 0x15, 0x16, 0x28, 0xae, 0xd2, 0xa6, 0xab, 0xf7, 0x15, 0x88, 0x09, 0xcf, 0x4f, 0x3c};
+uint8_t iv[] = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f};
+
+/*
+uint8_t *packet::key = InitKey();
+uint8_t *packet::iv = InitIV();
+
+uint8_t *packet::InitKey() {
+    uint8_t key[] = {0x2b, 0x7e, 0x15, 0x16, 0x28, 0xae, 0xd2, 0xa6, 0xab, 0xf7, 0x15, 0x88, 0x09, 0xcf, 0x4f, 0x3c};
+    return key;
+}
+
+uint8_t *packet::InitIV() {
+    uint8_t iv_[] = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f};
+    return iv_;
+}*/
+
 int packet::Send(SOCKET socket) {
     PACKET send_packet;
     send_packet.type = type;
@@ -15,7 +32,14 @@ int packet::Send(SOCKET socket) {
     send_packet.current_index = current_index;
     send_packet.final_index = final_index;
 
-    if (send(socket, (char *) &send_packet, PACKET_SIZE, 0) == -1) {
+    uint8_t *encrypt = (uint8_t *) &send_packet;
+
+    struct AES_ctx ctx;
+    AES_init_ctx_iv(&ctx, key, iv);
+
+    AES_CBC_encrypt_buffer(&ctx, encrypt, sizeof(PACKET));
+
+    if (send(socket, (char *) encrypt, PACKET_SIZE, 0) == -1) {
         return -1;
     } else {
         return 0;
@@ -26,9 +50,17 @@ int packet::Receive(SOCKET socket) {
     char buf[PACKET_SIZE];
 
     if (recv(socket, (char *) buf, PACKET_SIZE, 0) == -1) {
+        printf("[ERROR] %d\n", WSAGetLastError());
         return -1;
     } else {
-        PACKET *packet_ = (PACKET *) &buf;
+        uint8_t *decrypt = (uint8_t *) buf;
+
+        struct AES_ctx ctx;
+        AES_init_ctx_iv(&ctx, key, iv);
+
+        AES_CBC_decrypt_buffer(&ctx, decrypt, sizeof(PACKET));
+
+        PACKET *packet_ = (PACKET *) decrypt;
 
         if (packet_->type == PACKET_TYPE::PING && packet_->data[0] == 1 && packet_->data[1] == 2 &&
             packet_->data[2] == 3 &&
