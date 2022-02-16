@@ -14,13 +14,14 @@
 
 class file_handler {
 private:
-    wchar_t *file_data = new wchar_t;
-    wchar_t file_buffer[512];
+    char file_buffer[1024];
     char task_id[16];
+    int current_index;
     int final_index;
+    DWORD stack = 0;
 
     static void NewFileTransfer();
-    int AddData(wchar_t *file_data_, int index);
+    int AddData(char *file_data_, int index);
     void IssueFile();
 
 public:

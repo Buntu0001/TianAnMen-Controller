@@ -14,7 +14,7 @@ class packet {
 private:
     enum PACKET_TYPE type;
     char task_id[16];
-    wchar_t data[512];
+    char data[1024];
     int current_index;
     int final_index;
 public:
@@ -22,7 +22,7 @@ public:
 
     void set_task_id(char *task_id_);
 
-    void set_data(wchar_t *data_);
+    void set_data(char *data_);
 
     void set_current_index(int current_index_);
 
@@ -32,7 +32,7 @@ public:
 
     char *get_task_id();
 
-    wchar_t *get_data();
+    char *get_data();
 
     int *get_current_index();
 

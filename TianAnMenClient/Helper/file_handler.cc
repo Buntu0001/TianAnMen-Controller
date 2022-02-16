@@ -9,27 +9,61 @@ file_handler::file_handler(char *task_id_, int final_index_) {
     final_index = final_index_;
 }
 
-int file_handler::AddData(wchar_t *file_data_, int index) {
+int file_handler::AddData(char *file_data_, int index) {
+    try {
 #ifdef DEBUG
-    wprintf(L"[DEBUG_TRANSFER] FILE_TASK_ID: %s\n[DEBUG_TRANSFER] INDEX: %d/%d\n", task_id, index, final_index);
+        wprintf(L"[DEBUG_TRANSFER] FILE_TASK_ID: %s\n[DEBUG_TRANSFER] INDEX: %d/%d\n", task_id, index, final_index);
 #endif
-    if (index == final_index) {
-        memset(file_buffer, 0, sizeof(file_buffer));
-        memmove(file_buffer, file_data_, sizeof(file_buffer));
-        wcscat(file_data, file_buffer);
-        IssueFile();
-        return 0;
-    } else {
-        memset(file_buffer, 0, sizeof(file_buffer));
-        memmove(file_buffer, file_data_, sizeof(file_buffer));
-        wcscat(file_data, file_buffer);
-        return 1;
+        if (index == final_index) {
+            memset(file_buffer, 0, sizeof(file_buffer));
+            memmove(file_buffer, file_data_, sizeof(file_buffer));
+            IssueFile();
+#ifdef DEBUG
+            wprintf(L"[DEBUG-TRANSFER] END_TRANSFER\n");
+#endif
+            return 0;
+        } else {
+            memset(file_buffer, 0, sizeof(file_buffer));
+            memmove(file_buffer, file_data_, sizeof(file_buffer));
+            IssueFile();
+            return 1;
+        }
+    } catch (int ex) {
+#ifdef DEBUG
+        wprintf(L"[ERROR] %d\n", ex);
+#endif
     }
 }
 
 void file_handler::IssueFile() {
-    wprintf(L"[DEBUG_TRANSFER] FILE_ISSUE\n");
-    wprintf(L"[DEBUG_TRANSFER] %S\n", file_data);
+    HANDLE write_handle;
+    if (current_index == 1) {
+        write_handle = CreateFileW(L"C:\\Users\\LUNAFE\\Desktop\\test2.exe", GENERIC_WRITE, 0, NULL,
+                                   CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+    } else {
+        write_handle = CreateFileW(L"C:\\Users\\LUNAFE\\Desktop\\test2.exe", GENERIC_WRITE, 0, NULL, OPEN_EXISTING,
+                                   FILE_ATTRIBUTE_NORMAL, NULL);
+    }
+    if (write_handle != INVALID_HANDLE_VALUE) {
+
+        SetFilePointer(write_handle, stack, nullptr, FILE_BEGIN);
+        DWORD written;
+        WriteFile(write_handle, file_buffer, sizeof(file_buffer), &written, NULL);
+#ifdef DEBUG
+        wprintf(L"[DEBUG-TRANSFER] WRITTEN: %d\n", written);
+#endif
+
+        stack += written;
+#ifdef DEBUG
+        wprintf(L"[DEBUG-TRANSFER] STACK: %lu\n", stack);
+#endif
+
+        CloseHandle(write_handle);
+    } else {
+#ifdef DEBUG
+        wprintf(L"[DEBUG-TRANSFER] ISSUE_FILE_ERROR\n");
+#endif
+    }
 }
 
 void util::MakeInfo(packet *packet_) {
@@ -42,7 +76,7 @@ void util::MakeInfo(packet *packet_) {
     util::GenId(id, 16);
     packet_->set_task_id(id);
 
-    packet_->set_data((wchar_t *) &init_info);
+    packet_->set_data((char *) &init_info);
 
     packet_->set_current_index(0);
     packet_->set_final_index(0);
@@ -120,12 +154,11 @@ void file_handler::NewFileTransfer() {
 #ifdef DEBUG
                     wprintf(L"[DEBUG_TRANSFER] DATA_RECEIVED\n");
 #endif
+                    wprintf(L"[CONTEXT] %S\n", receive_packet.get_data());
                     if (*receive_packet.get_current_index() == 1) {
-                         handle = new file_handler(receive_packet.get_task_id(),
-                                                                *receive_packet.get_final_index());
-
-                        file_handle_list::Add(receive_packet.get_task_id(), handle);
-
+                        handle = new file_handler(receive_packet.get_task_id(),
+                                                  *receive_packet.get_final_index());
+                        handle->current_index = 1;
                         if (handle->AddData(receive_packet.get_data(), *receive_packet.get_current_index()) == 0) {
 #ifdef DEBUG
                             wprintf(L"[DEBUG_TRANSFER] END!\n");
@@ -135,21 +168,22 @@ void file_handler::NewFileTransfer() {
 #ifdef DEBUG
                         wprintf(L"[DEBUG_TRANSFER] FIRST_RECEIVED\n");
 #endif
+                        handle->current_index++;
                     } else {
-                        file_handler *handle = file_handle_list::Get(receive_packet.get_task_id());
                         if (handle->AddData(receive_packet.get_data(), *receive_packet.get_current_index()) == 0) {
 #ifdef DEBUG
                             wprintf(L"[DEBUG_TRANSFER] END!\n");
 #endif
                             return;
                         }
+                        handle->current_index++;
                     }
                 } else {
 #ifdef DEBUG
                     wprintf(L"[DEBUG_TRANSFER] WRONG_PACKET_TYPE\n");
 #endif
                 }
-                Sleep(1000);
+                //Sleep(1000);
             }
         }
     } else {

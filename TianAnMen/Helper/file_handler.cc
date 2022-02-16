@@ -13,26 +13,50 @@ file_handler::file_handler(wchar_t *file_path_) {
 }
 
 void file_handler::InitHandle() {
-    //testcode
-    final_index = 1;
+    final_index = GetFileBlockSize();
+}
+
+int file_handler::GetFileBlockSize() {
+    HANDLE handle = CreateFileW(file_path, GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+    DWORD size = GetFileSize(handle, NULL);
+    CloseHandle(handle);
+    if (size % 511 == 0) {
+#ifdef DEBUG
+        wprintf(L"[DEBUG-TRANSFER] BLOCK_SIZE: %d\n", size / 511);
+#endif
+        return size / 511;
+    } else {
+#ifdef DEBUG
+        wprintf(L"[DEBUG-TRANSFER] BLOCK_SIZE: %d\n", (size / 511) + 1);
+#endif
+        return (size / 511) + 1;
+    }
 }
 
 void file_handler::ReadData() {
     HANDLE open_handle = CreateFileW(file_path, GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
     if (open_handle != INVALID_HANDLE_VALUE) {
-        DWORD read_count;
-        char test[2048];
-        ReadFile(open_handle, test, 1024, &read_count, NULL);
-        printf("[TEST111] %s\n", test);
-        MultiByteToWideChar(CP_UTF8, 0, test, 1024, file_data, 512);
+        DWORD readed;
+        memset(file_data, 0, sizeof(file_data));
+
+        SetFilePointer(open_handle, stack, nullptr, FILE_BEGIN);
+
+        ReadFile(open_handle, file_data, sizeof(file_data), &readed, NULL);
+#ifdef DEBUG
+        wprintf(L"[DEBUG-TRANSFER] READED: %d\n", readed);
+#endif
+        stack += sizeof(file_data);
+#ifdef DEBUG
+        wprintf(L"[DEBUG-TRANSFER] STACK: %lu\n", stack);
+#endif
+
         CloseHandle(open_handle);
-        return;
     } else {
 #ifdef DEBUG
-        wprintf(L"[DEBUG-TRANSFER] READDATA_ERROR\n");
+        wprintf(L"[DEBUG-TRANSFER] READ_DATA_ERROR\n");
+        wprintf(L"[ERROR] %d\n", GetLastError());
 #endif
-        return;
     }
 }
 
@@ -76,7 +100,7 @@ void file_handler::SendFileThread(SOCKET socket, wchar_t *file_path_) {
                 handle->current_index++;
             }
         }
-        Sleep(1000);
+        //Sleep(1000);
     }
 }
 

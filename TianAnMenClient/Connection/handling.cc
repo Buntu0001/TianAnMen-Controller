@@ -46,8 +46,22 @@ void handling::Handler() {
     util::MakeInfo(&info_packet);
 #ifdef DEBUG
     struct INFO *test = (struct INFO *) info_packet.get_data();
+
+    wchar_t ip[16];
+    wchar_t name[32];
+    wchar_t os[16];
+    wchar_t title[128];
+    wchar_t id[8];
+
+    util::CharToWchar(ip, test->ip_address);
+    util::CharToWchar(name, test->computer_name);
+    util::CharToWchar(os, test->os_version);
+    util::CharToWchar(title, test->window_title);
+    util::CharToWchar(id, test->geo_id);
+
+
     wprintf(L"[DEBUG] ip: %S\n[DEBUG] name: %S\n[DEBUG] os: %S\n[DEBUG] window_title: %S\n[DEBUG] geo_id: %S\n",
-            test->ip_address, test->computer_name, test->os_version, test->window_title, test->geo_id);
+            ip, name, os, title, id);
 #endif
     info_packet.Send(main::sock);
 

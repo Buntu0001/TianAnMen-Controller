@@ -69,7 +69,7 @@ void packet::set_task_id(char *task_id_) {
     memmove(task_id, task_id_, sizeof(task_id));
 }
 
-void packet::set_data(wchar_t *data_) {
+void packet::set_data(char *data_) {
     memmove(data, data_, sizeof(data));
 }
 
@@ -89,7 +89,7 @@ char *packet::get_task_id() {
     return task_id;
 }
 
-wchar_t *packet::get_data() {
+char *packet::get_data() {
     return data;
 }
 

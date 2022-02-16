@@ -15,6 +15,10 @@ public:
     static void GenId(char *buf, int len);
 
     static void MakePing(class packet *packet_);
+
+    static void CharToWchar(wchar_t *dest, char *src);
+
+    static void WcharToChar(char *dest, wchar_t *src);
 };
 
 

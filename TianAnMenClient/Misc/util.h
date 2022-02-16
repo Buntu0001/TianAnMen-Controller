@@ -25,6 +25,10 @@ public:
     static void MakePong(class packet *packet_);
 
     static void MakeInfo(class packet *packet_);
+
+    static void CharToWchar(wchar_t *dest, char *src);
+
+    static void WcharToChar(char *dest, wchar_t *src);
 };
 
 

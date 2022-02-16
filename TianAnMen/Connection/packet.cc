@@ -26,6 +26,7 @@ int packet::Receive(SOCKET socket) {
     char buf[PACKET_SIZE];
 
     if (recv(socket, (char *) buf, PACKET_SIZE, 0) == -1) {
+        printf("[ERROR] %d\n", WSAGetLastError());
         return -1;
     } else {
         PACKET *packet_ = (PACKET *) &buf;
@@ -62,7 +63,7 @@ void packet::set_task_id(char *task_id_) {
     memmove(packet::task_id, task_id_, sizeof(packet::task_id));
 }
 
-void packet::set_data(wchar_t *data_) {
+void packet::set_data(char *data_) {
     memmove(packet::data, data_, sizeof(packet::data));
 }
 
@@ -82,7 +83,7 @@ char *packet::get_task_id() {
     return task_id;
 }
 
-wchar_t *packet::get_data() {
+char *packet::get_data() {
     return data;
 }
 

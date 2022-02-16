@@ -12,15 +12,22 @@
 
 class file_handler {
 private:
-    wchar_t file_data[512];
+    char file_data[1024];
     wchar_t file_path[MAX_PATH];
     char task_id[16];
     int current_index;
     int final_index;
+    int stack = 0;
+
+    void InitHandle();
+
+    void ReadData();
+
+    int GetFileBlockSize();
+
 public:
     file_handler(wchar_t *file_path_);
-    void InitHandle();
-    void ReadData();
+
 
     static void SendFileThread(SOCKET socket, wchar_t *file_path_);
 };
