@@ -19,14 +19,8 @@ private:
     int current_index;
     int final_index;
 
-    /*
-    static uint8_t *key;
-    static uint8_t *iv;
-
-    static uint8_t *InitKey();
-
-    static uint8_t *InitIV();
-     */
+    static uint8_t key[];
+    static uint8_t iv[];
 
 public:
     void set_type(PACKET_TYPE type_);

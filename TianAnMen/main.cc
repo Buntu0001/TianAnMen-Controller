@@ -9,7 +9,7 @@ bool main::isActive = false;
 void count() {
     while (true) {
 #ifdef DEBUG
-        //wprintf(L"[DEBUG] COUNT: %d\n", client_list::GetSize());
+        wprintf(L"[DEBUG] COUNT: %d\n", client_list::GetSize());
         Sleep(1000);
 #endif
     }
@@ -20,8 +20,8 @@ int main() {
     std::thread handle_thread(handling::Listening);
     handle_thread.detach();
 
-    std::thread count_thread(count);
-    count_thread.detach();
+    //std::thread count_thread(count);
+    //count_thread.detach();
 
     while (true) {
         std::string command_buffer;

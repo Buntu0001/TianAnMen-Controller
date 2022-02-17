@@ -175,7 +175,7 @@ void handling::Handler(SOCKET socket) {
 #ifdef DEBUG
         wprintf(L"[DEBUG_TRANSFER] TRANSFER_PACKET\n");
 #endif
-        wchar_t path[MAX_PATH] = L"C:\\Users\\LUNAFE\\Desktop\\AutoClick.exe";
+        wchar_t path[MAX_PATH] = L"C:\\Users\\LUNAFE\\Desktop\\test.jpg";
         std::thread handle_thread(file_handler::SendFileThread, socket, path);
         handle_thread.join();
     } else {

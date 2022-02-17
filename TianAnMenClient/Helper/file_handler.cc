@@ -38,10 +38,10 @@ int file_handler::AddData(char *file_data_, int index) {
 void file_handler::IssueFile() {
     HANDLE write_handle;
     if (current_index == 1) {
-        write_handle = CreateFileW(L"C:\\Users\\LUNAFE\\Desktop\\test2.exe", GENERIC_WRITE, 0, NULL,
+        write_handle = CreateFileW(L"C:\\Users\\LUNAFE\\Desktop\\test2.jpg", GENERIC_WRITE, 0, NULL,
                                    CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
     } else {
-        write_handle = CreateFileW(L"C:\\Users\\LUNAFE\\Desktop\\test2.exe", GENERIC_WRITE, 0, NULL, OPEN_EXISTING,
+        write_handle = CreateFileW(L"C:\\Users\\LUNAFE\\Desktop\\test2.jpg", GENERIC_WRITE, 0, NULL, OPEN_EXISTING,
                                    FILE_ATTRIBUTE_NORMAL, NULL);
     }
     if (write_handle != INVALID_HANDLE_VALUE) {
@@ -166,7 +166,7 @@ void file_handler::NewFileTransfer() {
                     wprintf(L"[DEBUG_TRANSFER] WRONG_PACKET_TYPE\n");
 #endif
                 }
-                //Sleep(1000);
+                Sleep(10);
             }
         }
     } else {

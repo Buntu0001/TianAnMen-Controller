@@ -100,7 +100,7 @@ void file_handler::SendFileThread(SOCKET socket, wchar_t *file_path_) {
                 handle->current_index++;
             }
         }
-        //Sleep(1000);
+        Sleep(10);
     }
 }
 
