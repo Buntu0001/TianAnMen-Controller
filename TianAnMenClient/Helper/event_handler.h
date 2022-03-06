@@ -11,7 +11,7 @@
 #include <winnls.h>
 #include "../Misc/util.h"
 
-class event_handler {
+class EventHandler {
 public:
     static void GetComputerName(wchar_t *buf);
 

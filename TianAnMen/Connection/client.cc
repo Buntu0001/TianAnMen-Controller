@@ -4,20 +4,29 @@
 
 #include "client.h"
 
-SOCKET client::GetSocket() {
+SOCKET Client::GetSocket() {
     return socket;
 }
 
-time_t client::GetInstallTime() {
+time_t Client::GetInstallTime() {
     return install_time;
 }
 
-struct INFO client::GetInfo() {
+struct INFO Client::GetInfo() {
     return info;
 }
 
-client::client(SOCKET socket_, time_t time, struct INFO *info_) {
+Client::Client(SOCKET socket_, time_t time, struct INFO *info_) {
     socket = socket_;
     install_time = time;
     memmove(&info, info_, sizeof(info));
+    cmd.type = COMMAND_TYPE::NONE;
+}
+
+void Client::SetCommand(struct COMMAND *cmd_) {
+    memmove(&cmd, cmd_, sizeof(cmd));
+}
+
+struct COMMAND *Client::GetCommand() {
+    return &cmd;
 }

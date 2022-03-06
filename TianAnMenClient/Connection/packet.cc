@@ -4,11 +4,11 @@
 
 #include "packet.h"
 
-uint8_t packet::key[] = {0x15, 0x3e, 0x1f, 0xa5, 0x1a, 0xaf, 0xbd, 0x6a, 0xbb, 0xe1, 0x0e, 0xc8, 0xfe, 0x1c, 0x1d, 0x3e};
-uint8_t packet::iv[] = {0x4a, 0x3f, 0xcc, 0x1d, 0xda, 0x52, 0x35, 0x18, 0xc9, 0xb0, 0x0a, 0x4d, 0x7e, 0xf2, 0x1c, 0xdc};
+uint8_t Packet::key[] = {0x15, 0x3e, 0x1f, 0xa5, 0x1a, 0xaf, 0xbd, 0x6a, 0xbb, 0xe1, 0x0e, 0xc8, 0xfe, 0x1c, 0x1d, 0x3e};
+uint8_t Packet::iv[] = {0x4a, 0x3f, 0xcc, 0x1d, 0xda, 0x52, 0x35, 0x18, 0xc9, 0xb0, 0x0a, 0x4d, 0x7e, 0xf2, 0x1c, 0xdc};
 
 
-int packet::Send(SOCKET socket) {
+int Packet::Send(SOCKET socket) {
     PACKET send_packet;
     send_packet.type = type;
 
@@ -33,7 +33,7 @@ int packet::Send(SOCKET socket) {
     }
 }
 
-int packet::Receive(SOCKET socket) {
+int Packet::Receive(SOCKET socket) {
     char buf[PACKET_SIZE];
 
     if (recv(socket, (char *) buf, PACKET_SIZE, 0) == -1) {
@@ -76,47 +76,47 @@ int packet::Receive(SOCKET socket) {
     }
 }
 
-void packet::Execute() {
+void Packet::Execute() {
 
 }
 
-void packet::set_type(PACKET_TYPE type_) {
+void Packet::set_type(PACKET_TYPE type_) {
     type = type_;
 }
 
-void packet::set_task_id(char *task_id_) {
+void Packet::set_task_id(char *task_id_) {
     memmove(task_id, task_id_, sizeof(task_id));
 }
 
-void packet::set_data(char *data_) {
+void Packet::set_data(char *data_) {
     memmove(data, data_, sizeof(data));
 }
 
-void packet::set_current_index(int current_index_) {
+void Packet::set_current_index(int current_index_) {
     current_index = current_index_;
 }
 
-void packet::set_final_index(int final_index_) {
+void Packet::set_final_index(int final_index_) {
     final_index = final_index_;
 }
 
-PACKET_TYPE *packet::get_type() {
+PACKET_TYPE *Packet::get_type() {
     return &(type);
 }
 
-char *packet::get_task_id() {
+char *Packet::get_task_id() {
     return task_id;
 }
 
-char *packet::get_data() {
+char *Packet::get_data() {
     return data;
 }
 
-int *packet::get_current_index() {
+int *Packet::get_current_index() {
     return &(current_index);
 }
 
-int *packet::get_final_index() {
+int *Packet::get_final_index() {
     return &(final_index);
 }
 

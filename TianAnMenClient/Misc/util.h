@@ -14,7 +14,7 @@
 #include "../Helper/file_handler.h"
 #include "structure.h"
 
-class util {
+class Util {
 public:
     static void GenId(char *buf, int len);
 
@@ -22,9 +22,9 @@ public:
 
     static void InitRetrieveInfo(struct INFO *info);
 
-    static void MakePong(class packet *packet_);
+    static void MakePong(class Packet *packet_);
 
-    static void MakeInfo(class packet *packet_);
+    static void MakeInfo(class Packet *packet_);
 
     static void CharToWchar(wchar_t *dest, char *src);
 

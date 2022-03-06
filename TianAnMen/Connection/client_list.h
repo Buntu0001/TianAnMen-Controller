@@ -10,17 +10,17 @@
 
 #include "client.h"
 
-typedef std::vector<client *> list_t;
-typedef std::vector<client *>::iterator iterator_t;
+typedef std::vector<Client *> list_t;
+typedef std::vector<Client *>::iterator iterator_t;
 
-class client_list {
+class ClientList {
 private:
     static list_t list;
 
     static list_t MakeVector();
 
 public:
-    static void Add(client *client_);
+    static void Add(Client *client_);
 
     static void Remove(int index);
 

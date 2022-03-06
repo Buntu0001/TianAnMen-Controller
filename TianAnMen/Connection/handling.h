@@ -17,11 +17,19 @@
 #include "../main.h"
 #include "../Helper/file_handler.h"
 
-class handling {
-public:
+class Handling {
+private:
+    static SOCKET server_socket;
+    static SOCKADDR_IN server_addr;
+
+    static void PrintInfo(time_t current_time, struct INFO *init_info);
+
     static void Handler(SOCKET socket);
 
     static void Listening();
+
+public:
+    static void SocketInit();
 };
 
 

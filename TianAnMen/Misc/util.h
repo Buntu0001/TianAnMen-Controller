@@ -10,11 +10,11 @@
 
 #include "../Connection/packet.h"
 
-class util {
+class Util {
 public:
     static void GenId(char *buf, int len);
 
-    static void MakePing(class packet *packet_);
+    static void MakePing(class Packet *packet_);
 
     static void CharToWchar(wchar_t *dest, char *src);
 

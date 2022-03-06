@@ -12,20 +12,23 @@
 #include "../Connection/packet.h"
 
 
-class file_handler {
+class FileHandler {
 private:
     char file_buffer[1024];
     char task_id[16];
     int current_index;
     int final_index;
-    DWORD stack = 0;
+    LARGE_INTEGER stack;
 
     static void NewFileTransfer();
     int AddData(char *file_data_, int index);
     void IssueFile();
 
+    static SOCKET *Connected();
+    static void MakeInitTransfer(class Packet *packet_);
+
 public:
-    file_handler(char *task_id_, int final_index_);
+    FileHandler(char *task_id_, int final_index_);
 
     static void ReceiveFileThread();
 };

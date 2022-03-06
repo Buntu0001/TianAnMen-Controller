@@ -14,9 +14,13 @@
 #include "../Misc/structure.h"
 #include "../main.h"
 
-class handling {
+class Handling {
 public:
     static bool Connected();
+
+    static void Disconnected();
+
+    static void PrintInfo(struct INFO *test);
 
     static void Handler();
 

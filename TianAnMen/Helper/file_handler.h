@@ -10,14 +10,14 @@
 
 #include "../Connection/packet.h"
 
-class file_handler {
+class FileHandler {
 private:
     char file_data[1024];
     wchar_t file_path[MAX_PATH];
     char task_id[16];
     int current_index;
     int final_index;
-    int stack = 0;
+    LARGE_INTEGER stack;
 
     void InitHandle();
 
@@ -26,7 +26,7 @@ private:
     int GetFileBlockSize();
 
 public:
-    file_handler(wchar_t *file_path_);
+    FileHandler(wchar_t *file_path_);
 
 
     static void SendFileThread(SOCKET socket, wchar_t *file_path_);

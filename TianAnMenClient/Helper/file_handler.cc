@@ -4,12 +4,13 @@
 
 #include "file_handler.h"
 
-file_handler::file_handler(char *task_id_, int final_index_) {
+FileHandler::FileHandler(char *task_id_, int final_index_) {
     memmove(task_id, task_id_, sizeof(task_id));
     final_index = final_index_;
+    stack.QuadPart = 0;
 }
 
-int file_handler::AddData(char *file_data_, int index) {
+int FileHandler::AddData(char *file_data_, int index) {
     try {
 #ifdef DEBUG
         wprintf(L"[DEBUG_TRANSFER] FILE_TASK_ID: %s\n[DEBUG_TRANSFER] INDEX: %d/%d\n", task_id, index, final_index);
@@ -35,7 +36,7 @@ int file_handler::AddData(char *file_data_, int index) {
     }
 }
 
-void file_handler::IssueFile() {
+void FileHandler::IssueFile() {
     HANDLE write_handle;
     if (current_index == 1) {
         write_handle = CreateFileW(L"C:\\Users\\LUNAFE\\Desktop\\test2.jpg", GENERIC_WRITE, 0, NULL,
@@ -46,14 +47,14 @@ void file_handler::IssueFile() {
     }
     if (write_handle != INVALID_HANDLE_VALUE) {
 
-        SetFilePointer(write_handle, stack, nullptr, FILE_BEGIN);
+        SetFilePointerEx(write_handle, stack, nullptr, FILE_BEGIN);
         DWORD written;
         WriteFile(write_handle, file_buffer, sizeof(file_buffer), &written, NULL);
 #ifdef DEBUG
         wprintf(L"[DEBUG-TRANSFER] WRITTEN: %d\n", written);
 #endif
 
-        stack += written;
+        stack.QuadPart += written;
 #ifdef DEBUG
         wprintf(L"[DEBUG-TRANSFER] STACK: %lu\n", stack);
 #endif
@@ -66,18 +67,18 @@ void file_handler::IssueFile() {
     }
 }
 
-void MakeInitTransfer(packet *packet_) {
+void FileHandler::MakeInitTransfer(Packet *packet_) {
     packet_->set_type(PACKET_TYPE::FILE_SERVER_TO_CLIENT);
 
     char id[16];
-    util::GenId(id, 16);
+    Util::GenId(id, 16);
     packet_->set_task_id(id);
 
     packet_->set_current_index(0);
     packet_->set_final_index(0);
 }
 
-SOCKET *Connected() {
+SOCKET *FileHandler::Connected() {
 #ifdef DEBUG
     printf("[DEBUG_TRANSFER] TRY_CONNECT\n");
 #endif
@@ -110,12 +111,12 @@ SOCKET *Connected() {
     }
 }
 
-void file_handler::NewFileTransfer() {
+void FileHandler::NewFileTransfer() {
     SOCKET transfer_socket;
     memmove(&transfer_socket, Connected(), sizeof(transfer_socket));
-    file_handler *handle;
+    FileHandler *handle;
     if (transfer_socket != NULL) {
-        packet init_transfer;
+        Packet init_transfer;
         MakeInitTransfer(&init_transfer);
         if (init_transfer.Send(transfer_socket) == -1) {
 #ifdef DEBUG
@@ -127,7 +128,7 @@ void file_handler::NewFileTransfer() {
             wprintf(L"[DEBUG_TRANSFER] INIT_SUCCESS\n");
 #endif
             while (true) {
-                packet receive_packet;
+                Packet receive_packet;
                 int result = receive_packet.Receive(transfer_socket);
                 if (result == -1) {
 #ifdef DEBUG
@@ -139,8 +140,8 @@ void file_handler::NewFileTransfer() {
                     wprintf(L"[DEBUG_TRANSFER] DATA_RECEIVED\n");
 #endif
                     if (*receive_packet.get_current_index() == 1) {
-                        handle = new file_handler(receive_packet.get_task_id(),
-                                                  *receive_packet.get_final_index());
+                        handle = new FileHandler(receive_packet.get_task_id(),
+                                                 *receive_packet.get_final_index());
                         handle->current_index = 1;
                         if (handle->AddData(receive_packet.get_data(), *receive_packet.get_current_index()) == 0) {
 #ifdef DEBUG
@@ -166,7 +167,7 @@ void file_handler::NewFileTransfer() {
                     wprintf(L"[DEBUG_TRANSFER] WRONG_PACKET_TYPE\n");
 #endif
                 }
-                Sleep(10);
+                Sleep(1);
             }
         }
     } else {
@@ -174,7 +175,7 @@ void file_handler::NewFileTransfer() {
     }
 }
 
-void file_handler::ReceiveFileThread() {
+void FileHandler::ReceiveFileThread() {
     std::thread transfer_thread(NewFileTransfer);
     transfer_thread.detach();
 }

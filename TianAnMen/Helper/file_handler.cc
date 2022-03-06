@@ -4,49 +4,51 @@
 
 #include "file_handler.h"
 
-file_handler::file_handler(wchar_t *file_path_) {
+FileHandler::FileHandler(wchar_t *file_path_) {
     memmove(file_path, file_path_, sizeof(file_path));
 
-    util::GenId(task_id, 16);
+    Util::GenId(task_id, 16);
 
     current_index = 1;
+    stack.QuadPart = 0;
 }
 
-void file_handler::InitHandle() {
+void FileHandler::InitHandle() {
     final_index = GetFileBlockSize();
 }
 
-int file_handler::GetFileBlockSize() {
+int FileHandler::GetFileBlockSize() {
     HANDLE handle = CreateFileW(file_path, GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
-    DWORD size = GetFileSize(handle, NULL);
+    LARGE_INTEGER size;
+    GetFileSizeEx(handle, &size);
     CloseHandle(handle);
-    if (size % 1024 == 0) {
+    if (size.QuadPart % 1024 == 0) {
 #ifdef DEBUG
-        wprintf(L"[DEBUG-TRANSFER] BLOCK_SIZE: %d\n", size / 1024);
+        wprintf(L"[DEBUG-TRANSFER] BLOCK_SIZE: %d\n", size.QuadPart / 1024);
 #endif
-        return size / 1024;
+        return size.QuadPart / 1024;
     } else {
 #ifdef DEBUG
-        wprintf(L"[DEBUG-TRANSFER] BLOCK_SIZE: %d\n", (size / 1024) + 1);
+        wprintf(L"[DEBUG-TRANSFER] BLOCK_SIZE: %d\n", (size.QuadPart / 1024) + 1);
 #endif
-        return (size / 1024) + 1;
+        return (size.QuadPart / 1024) + 1;
     }
 }
 
-void file_handler::ReadData() {
+void FileHandler::ReadData() {
     HANDLE open_handle = CreateFileW(file_path, GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
     if (open_handle != INVALID_HANDLE_VALUE) {
         DWORD readed;
         memset(file_data, 0, sizeof(file_data));
 
-        SetFilePointer(open_handle, stack, nullptr, FILE_BEGIN);
+        SetFilePointerEx(open_handle, stack, nullptr, FILE_BEGIN);
 
         ReadFile(open_handle, file_data, sizeof(file_data), &readed, NULL);
 #ifdef DEBUG
         wprintf(L"[DEBUG-TRANSFER] READED: %d\n", readed);
 #endif
-        stack += sizeof(file_data);
+        stack.QuadPart += sizeof(file_data);
 #ifdef DEBUG
         wprintf(L"[DEBUG-TRANSFER] STACK: %lu\n", stack);
 #endif
@@ -60,19 +62,19 @@ void file_handler::ReadData() {
     }
 }
 
-void file_handler::SendFileThread(SOCKET socket, wchar_t *file_path_) {
+void FileHandler::SendFileThread(SOCKET socket, wchar_t *file_path_) {
 #ifdef DEBUG
     wprintf(L"[DEBUG-TRANSFER] SENDFILE_THREAD\n");
 #endif
-    file_handler *handle = new file_handler(file_path_);
+    FileHandler *handle = new FileHandler(file_path_);
     handle->InitHandle();
     while (true) {
 
-        packet send_packet;
+        Packet send_packet;
         send_packet.set_type(PACKET_TYPE::FILE_DATA);
 
         char id[16];
-        util::GenId(id, 16);
+        Util::GenId(id, 16);
         send_packet.set_task_id(id);
 
         handle->ReadData();
@@ -100,7 +102,7 @@ void file_handler::SendFileThread(SOCKET socket, wchar_t *file_path_) {
                 handle->current_index++;
             }
         }
-        Sleep(10);
+        Sleep(1);
     }
 }
 

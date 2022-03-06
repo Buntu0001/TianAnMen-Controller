@@ -11,7 +11,7 @@
 #include "../main.h"
 #include "../Misc/aes.h"
 
-class packet {
+class Packet {
 private:
     enum PACKET_TYPE type;
     char task_id[16];

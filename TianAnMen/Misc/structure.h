@@ -29,12 +29,13 @@ struct PACKET {
 };
 
 enum COMMAND_TYPE {
+    NONE,
     FILE_UPLOAD
 };
 
 struct COMMAND {
     enum COMMAND_TYPE type;
-    char data[1024];
+    wchar_t data[512];
 };
 
 #endif //TIANANMEN_STRUCTURE_H

@@ -9,5 +9,5 @@ SOCKET main::sock = 0;
 int main() {
     _wsetlocale(LC_ALL, L"korean");
 
-    handling::Handler();
+    Handling::Handler();
 }

@@ -4,19 +4,19 @@
 
 #include "client_list.h"
 
-list_t client_list::list = MakeVector();
+list_t ClientList::list = MakeVector();
 
-void client_list::Add(client *client_) {
+void ClientList::Add(Client *client_) {
     list.push_back(client_);
 }
 
-void client_list::Remove(int index) {
+void ClientList::Remove(int index) {
     list.erase(list.begin() + index);
 }
 
-void client_list::Remove(SOCKET socket) {
-    for (auto iter = client_list::Begin(); iter != client_list::End();) {
-        if ((SOCKET)((client * )(*iter)->GetSocket()) == socket) {
+void ClientList::Remove(SOCKET socket) {
+    for (auto iter = ClientList::Begin(); iter != ClientList::End();) {
+        if ((SOCKET)((Client * )(*iter)->GetSocket()) == socket) {
             iter = list.erase(iter);
 #ifdef DEBUG
             wprintf(L"[DEBUG] CLIENT_REMOVED\n");
@@ -27,19 +27,19 @@ void client_list::Remove(SOCKET socket) {
     }
 }
 
-int client_list::GetSize() {
+int ClientList::GetSize() {
     return list.size();
 }
 
-iterator_t client_list::Begin() {
+iterator_t ClientList::Begin() {
     return list.begin();
 }
 
-iterator_t client_list::End() {
+iterator_t ClientList::End() {
     return list.end();
 }
 
-list_t client_list::MakeVector() {
+list_t ClientList::MakeVector() {
     list_t v;
     return v;
 }
